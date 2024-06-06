@@ -25,7 +25,7 @@ class MyProvider(Provider):
         yield random.randint(0, 10000)
 
     @provide(scope=Scope.REQUEST)
-    async def get_name(self, request: TelegramObject) -> User:
+    async def get_user(self, request: TelegramObject) -> User:
         return request.from_user
 
 
@@ -42,7 +42,7 @@ async def start(
     user: FromDishka[User],
     value: FromDishka[int],
 ):
-    await message.answer(f"Hello, {1}, {user.full_name}!")
+    await message.answer(f"Hello, {value}, {user.full_name}!")
 
 
 async def main():
