@@ -24,11 +24,17 @@ class DependencyKey(NamedTuple):
 
 
 def hint_to_dependency_key(hint: Any) -> DependencyKey:
+    from dishka.provider import BaseProvider
+
     if get_origin(hint) is not Annotated:
         return DependencyKey(hint, None)
     args = get_args(hint)
     from_component = next(
-        (arg for arg in args if isinstance(arg, FromComponent)),
+        (
+            arg
+            for arg in args
+            if isinstance(arg, (FromComponent, BaseProvider))
+        ),
         None,
     )
     return DependencyKey(args[0], from_component.component)
